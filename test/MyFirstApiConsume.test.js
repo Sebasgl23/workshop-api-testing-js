@@ -27,15 +27,15 @@ it('Consume GET Service', async () => {
 
   
   it('Consume PATCH Service' , async () => {
-    const query = {
+    const body = {
       name: 'Sebastian',
       city: 'Cartagena'
     };
 
-    const response = await axios.patch('https://httpbin.org/patch' , { query });
+    const response = await axios.patch('https://httpbin.org/patch' ,  body );
 
     expect(response.status).to.equal(StatusCodes.OK);
-    expect(response.data).to.have.property('args');
+    expect(response.args).to.equal(body.data);
 
   });
 
@@ -44,33 +44,33 @@ it('Consume GET Service', async () => {
     const response = await axios.head('https://httpbin.org/get');
 
     expect(response.status).to.equal(StatusCodes.OK);
-    expect(response.data).to.not.have.property('origin');
+    expect(response.body).to.equal(undefined);
 
   })
 
   it('Consume PUT Service' , async () => {
-    const query = {
+    const body = {
       name: 'Carlos',
       age: '45',
       city: 'Orlando'
 
     };
 
-    const response = await axios.put('https://httpbin.org/put' , { query });
+    const response = await axios.put('https://httpbin.org/put' ,  body );
 
     expect(response.status).to.equal(StatusCodes.OK);
-    expect(response.data.args).to.exist;
+    expect(response.args).to.equal(body.data);
 
   });
 
 
   it('Consume DELETE Service' , async () => {
-    const query = {
+    const body = {
       name: 'Carlos',
       age: '45'
     };
 
-    const response = await axios.delete('https://httpbin.org/delete' , { query });
+    const response = await axios.delete('https://httpbin.org/delete' ,  body );
 
     expect(response.status).to.equal(StatusCodes.OK);
 
