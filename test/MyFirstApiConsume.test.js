@@ -75,5 +75,3 @@ it('Consume GET Service', async () => {
     expect(response.status).to.equal(StatusCodes.OK);
 
   });
-
-
