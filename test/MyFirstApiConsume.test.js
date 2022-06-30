@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const { StatusCodes } = require('http-status-codes');
 
 describe('First Api Tests', () => {
-});
+
 
 it('Consume GET Service', async () => {
     const response = await axios.get('https://httpbin.org/ip');
@@ -75,3 +75,5 @@ it('Consume GET Service', async () => {
     expect(response.status).to.equal(StatusCodes.OK);
 
   });
+
+});
