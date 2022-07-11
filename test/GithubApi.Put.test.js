@@ -11,6 +11,7 @@ describe('Consume PUT Method', () => {
   let followResponse;
   let followList;
   let username;
+  let newFollowList;
 
   before(async () => {
     followResponse = await axios.put(`${urlBase}/user/following/${githubUserName}`, {}, {
@@ -35,11 +36,22 @@ describe('Consume PUT Method', () => {
 
   it('Check following list to confirm', async () => {
     expect(followList.status).to.equal(StatusCodes.OK);
-    expect(username.login).to.equal('aperdomob');
+    expect(username.login).to.equal(githubUserName);
   });
 
   it('Check idempotence of the PUT Method', async () => {
     expect(followResponse.status).to.equal(StatusCodes.NO_CONTENT);
     expect(followResponse.data).to.equal('');
+  });
+
+  it('Confirm that i am following the user', async () => {
+    newFollowList = await axios.get(`${urlBase}/user/following`, {
+      headers: {
+        Authorization: `token ${process.env.ACCESS_TOKEN}`
+      }
+    });
+    username = newFollowList.data.find((element) => element.login === 'aperdomob');
+    expect(newFollowList.status).to.equal(StatusCodes.OK);
+    expect(username.login).to.equal(githubUserName);
   });
 });
