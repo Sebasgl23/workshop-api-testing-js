@@ -42,28 +42,30 @@ describe('Consume POST and PATCH method', () => {
     expect(repo.name).to.equal('workshop-api-testing-js');
   });
 
-  before(async () => {
-    issueResponse = await axios.post(`${urlBase}/repos/${username}/${repo.name}/issues`, { title: 'This is the issue title' }, {
-      headers: {
-        Authorization: `token ${process.env.ACCESS_TOKEN}`
-      }
+  describe('Create the issue and update the issue', () => {
+    before(async () => {
+      issueResponse = await axios.post(`${urlBase}/repos/${username}/${repo.name}/issues`, { title: 'This is the issue title' }, {
+        headers: {
+          Authorization: `token ${process.env.ACCESS_TOKEN}`
+        }
+      });
+
+      issueEditResponse = await axios.patch(`${urlBase}/repos/${username}/${repo.name}/issues/${issueResponse.data.number}`, { body: 'This is the body of the issue' }, {
+        headers: {
+          Authorization: `token ${process.env.ACCESS_TOKEN}`
+        }
+      });
     });
 
-    issueEditResponse = await axios.patch(`${urlBase}/repos/${username}/${repo.name}/issues/${issueResponse.data.number}`, { body: 'This is the body of the issue' }, {
-      headers: {
-        Authorization: `token ${process.env.ACCESS_TOKEN}`
-      }
+    it('Get id info and check it has been created succesfuly', async () => {
+      expect(issueResponse.data.id).to.not.equal(undefined);
+      expect(issueResponse.data.title).to.equal('This is the issue title');
+      expect(issueResponse.data.body).to.equal(null);
     });
-  });
-
-  it('Get id info and check it has been created succesfuly', async () => {
-    expect(issueResponse.data.id).to.not.equal(undefined);
-    expect(issueResponse.data.title).to.equal('This is the issue title');
-    expect(issueResponse.data.body).to.equal(null);
-  });
-  it('Check if the issue has been edited succesfuly', async () => {
-    expect(issueEditResponse.data.id).to.equal(issueResponse.data.id);
-    expect(issueEditResponse.data.title).to.equal(issueResponse.data.title);
-    expect(issueEditResponse.data.body).to.equal('This is the body of the issue');
+    it('Check if the issue has been edited succesfuly', async () => {
+      expect(issueEditResponse.data.id).to.equal(issueResponse.data.id);
+      expect(issueEditResponse.data.title).to.equal(issueResponse.data.title);
+      expect(issueEditResponse.data.body).to.equal('This is the body of the issue');
+    });
   });
 });
