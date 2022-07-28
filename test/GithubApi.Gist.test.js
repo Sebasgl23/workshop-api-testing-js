@@ -4,7 +4,6 @@ const { StatusCodes } = require('http-status-codes');
 const { expect } = require('chai');
 const chai = require('chai');
 const axios = require('axios');
-
 chai.use(require('chai-subset'));
 
 const urlBase = 'https://api.github.com';
