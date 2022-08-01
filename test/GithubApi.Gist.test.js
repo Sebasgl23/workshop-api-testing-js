@@ -7,7 +7,6 @@ const axios = require('axios');
 chai.use(require('chai-subset'));
 
 const urlBase = 'https://api.github.com';
-const promise = '"This file should contain a promise"';
 
 let createGistResponse;
 let gistUrl;
@@ -19,8 +18,8 @@ const gistParameters = {
   description: 'This is example gist with a promise',
   public: true,
   files: {
-    'promesa.js': {
-      content: promise
+    'promise.js': {
+      content: 'This file should contain a promise'
     }
   }
 };
@@ -36,7 +35,7 @@ describe('Consume DELETE Method', () => {
       gistUrl = createGistResponse.data.url;
     });
 
-    it('Check the Gist creation and his parameters', async () => {
+    it('Check the Gist creation and its parameters', async () => {
       expect(createGistResponse.status).to.equal(StatusCodes.CREATED);
       expect(createGistResponse.data).to.containSubset(gistParameters);
     });
@@ -51,7 +50,7 @@ describe('Consume DELETE Method', () => {
       });
     });
 
-    it('Check that the gist exist with his url', async () => {
+    it('Check that the gist exist with its url', async () => {
       expect(getGistResponse.status).to.equal(StatusCodes.OK);
       expect(getGistResponse.data).to.containSubset(gistParameters);
     });
